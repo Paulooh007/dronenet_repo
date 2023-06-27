@@ -1,0 +1,35 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body style="padding:0;margin:0;box-sizing: border-box;">
+    <video style="height:100vh;width:100vw;background:#000;"></video>
+</body>
+<script>
+    
+    if(navigator && navigator.mediaDevices){
+    const options = { audio: false, video: { facingMode: "user", width: 200, height: 200  } }
+    navigator.mediaDevices.getUserMedia(options)
+    .then(function(stream) {
+        var video = document.querySelector('video');
+        video.srcObject = stream;
+        video.onloadedmetadata = function(e) {
+          video.play();
+        };
+    })
+    .catch(function(err) {
+        //Handle error here
+    });
+}
+else{
+    console.log("camera API is not supported by your browser")
+}
+
+    // Good to go!
+</script>
+</html>
