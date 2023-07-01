@@ -162,14 +162,14 @@ if (__name__ == "__main__"):
     while True:
         msg = the_connection.recv_match(type = "GLOBAL_POSITION_INT", blocking = False)
         if msg:
-            if msg.relative_alt >= (takeoff_height * 1000): #20 centimeters shy of take off height
-                # send_body_offset_ned_command(velocity, velocity)
+            if msg.relative_alt >= (takeoff_height * 1000):
+                send_body_offset_ned_command(velocity, 0) #offset by some meters
                 # time.sleep(20)
                 set_flight_mode("RTL")
                 break
 
 
-    cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(1)
 
     centerX, centerY = w//2, h//2  #Get center of Frame
 
@@ -179,9 +179,16 @@ if (__name__ == "__main__"):
     while True:
         
         # frame = me.get_frame_read().frame
-        ret, frame = cap.read()
 
-        frame = cv2.resize(frame, (w,h))
+        try:
+            ret, frame = cap.read()
+            frame = cv2.resize(frame, (w,h))
+
+        except Exception as e:
+            continue
+            
+
+        
 
         msg = the_connection.recv_match(type = "GLOBAL_POSITION_INT", blocking = False)
         if msg:
