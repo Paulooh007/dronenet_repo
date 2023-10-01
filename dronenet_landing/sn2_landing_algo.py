@@ -301,8 +301,13 @@ if (__name__ == "__main__"):
 
             cX, cY = markerInfo[0]   #Get marker midpoint
 
+            # estimates the 3D pose (position and orientation) of a marker in a 3D space based on the given input.
+            # it's extracting two specific pieces of data: rvec (rotation vector) and tvec (translation vector).
+            # These vectors represent the rotation and translation values respectively, 
+            # describing how the marker is oriented and positioned in 3D space.
             rvec, tvec, markerPoints = cv2.aruco.estimatePoseSingleMarkers(corners, 0.02,intrinsic_camera,distortion)
-            
+
+            # draw x,y,z axis on marker
             cv2.aruco.drawDetectedMarkers(frame, corners)
 
             try:
@@ -317,12 +322,19 @@ if (__name__ == "__main__"):
             
             x_sum = corners[0][0][0][0]+ corners[0][0][1][0]+ corners[0][0][2][0]+ corners[0][0][3][0]
             y_sum = corners[0][0][0][1]+ corners[0][0][1][1]+ corners[0][0][2][1]+ corners[0][0][3][1]
-    
+
+            # This gives the center of the marker
             x_avg = x_sum*.25
             y_avg = y_sum*.25
-            
-            x_ang = round((x_avg - w*.5)*(horizontal_fov/w), 2) 
-            y_ang = round((y_avg - h*.5)*(vertical_fov/h), 2)
+
+            # These lines calculate the horizontal and vertical angles of the marker in the camera's field of view.
+            # x_ang and y_ang represent the angles at which the center of the marker is viewed by the camera within its field of view. 
+            # This is used to align the center of the camera with the center of the marker.
+            x_ang = (x_avg - w *.5) * (horizontal_fov/w)
+            y_ang = (y_avg - h *.5) * (vertical_fov/h)
+
+            x_ang = round(x_ang, 4) 
+            y_ang = round(y_ang, 4)
              
             # print(x_ang, y_ang)
             
