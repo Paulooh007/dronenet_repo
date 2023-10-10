@@ -243,6 +243,9 @@ if (__name__ == "__main__"):
 
     set_flight_mode('GUIDED')
 
+    counter = 0
+    n_frame = 30
+
 
     # Take off procedure
     while True:
@@ -348,8 +351,9 @@ if (__name__ == "__main__"):
 
             cv2.line(frame, (cX, cY), (centerX,centerY), (254, 255, 0), 3)
 
-            if error > 50:
-                send_body_offset_ned_command(x_ang, y_ang, 0, velocity= True)
+            if counter % n_frame == 0:
+                if error > 50:
+                    send_body_offset_ned_command(x_ang, y_ang, 0, velocity= True)
 
         else:
             x_ang, y_ang = 0, 0
@@ -360,7 +364,7 @@ if (__name__ == "__main__"):
                     0.5, (0, 0, 244), 2)
 
 
-
+        counter += 1
         cv2.imshow('video',frame)
         debug_image_writer.write(frame)
         if cv2.waitKey(1) & 0xFF == ord('q'):
