@@ -353,11 +353,11 @@ if (__name__ == "__main__"):
 
             if counter % n_frame == 0:
                 if error > 50:
-                    send_body_offset_ned_command(x_ang, y_ang, 0, velocity= True)
+                    send_body_offset_ned_command(x_ang, y_ang, 0, velocity= False)
 
         else:
             x_ang, y_ang = 0, 0
-            send_body_offset_ned_command(x_ang, y_ang, 0, velocity= True)
+            send_body_offset_ned_command(x_ang, y_ang, 0, velocity= False)
 
             cv2.putText(frame, f"X_vel: {x_ang}  Y_vel: {y_ang}  Error: No marker found!",
                     (20, 20), cv2.FONT_HERSHEY_SIMPLEX,
